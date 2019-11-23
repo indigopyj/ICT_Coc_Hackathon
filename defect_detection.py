@@ -33,13 +33,10 @@ def detectDeposit(img):
     average=np.average(roi_mat)
     # Accuracy is not certain since it is based on around 600 data.
     if average>200:
-        print("deposit detected")
         return 0.78
     elif average>180:
-        print("deposit detected")
         return 0.61
     elif average>150:
-        print("deposit detected")
         return 0.55
     else:
         return 0
@@ -83,12 +80,18 @@ def contouring(img):
 
     
 if  __name__ == "__main__":
-    testImage=cv2.imread("test2.jpg")
-    testImage=preProcess(testImage)
-    dep_result=detectDeposit(testImage)
-    result = testImage.copy()
-    if(dep_result >= 150):
-        print("Deposit detected")
+   
+    images=os.listdir("test_image/")
+    for image in images:
+        img_dir = "test_image/"+image
+        img = cv2.imread(img_dir)
+        testImage=preProcess(img)
+        dep_result=detectDeposit(testImage)
+        
+        if(dep_result != 0):
+            os.rename(img_dir, "result/deposit/"+image+".jpg")
+        else:
+            os.rename(img_dir, "result/non_deposit/"+image+".jpg")
    
     
     
